@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://jerchenxin.github.io/img/disk-ssd-update.png">
 <meta property="og:image" content="http://jerchenxin.github.io/img/disk-ssd-gc.png">
 <meta property="article:published_time" content="2021-05-27T03:33:20.000Z">
-<meta property="article:modified_time" content="2021-05-27T07:32:44.634Z">
+<meta property="article:modified_time" content="2021-05-27T08:09:29.102Z">
 <meta property="article:author" content="Xin CHEN">
 <meta property="article:tag" content="disk">
 <meta property="article:tag" content="hardware">
@@ -190,7 +190,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-05-27 11:33:20 / Modified: 15:32:44" itemprop="dateCreated datePublished" datetime="2021-05-27T11:33:20+08:00">2021-05-27</time>
+              <time title="Created: 2021-05-27 11:33:20 / Modified: 16:09:29" itemprop="dateCreated datePublished" datetime="2021-05-27T11:33:20+08:00">2021-05-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,7 +247,7 @@
 <li>对于每个track，在sector上连续写数据</li>
 </ol>
 <p>知道怎么写数据后，再思考下，假如一个文件占据很多个驻面，怎么顺序读完整个文件？（假设存储时绝对顺序，一共有n个盘面）</p>
-<p>大致步骤：找到对应的最外层驻面（seek 1次），磁头转n次把同一个驻面的所有盘面读完（这里不需要再次seek了），最近seek到下一个驻面，同上操作。这就是顺序读取为什么特别快的原因，因为几乎都在转圈圈，seek的次数很少。</p>
+<p>大致步骤：找到对应的最外层驻面（seek 1次），磁头转n次把同一个驻面的所有盘面读完（这里不需要再次seek了），然后seek到下一个驻面，同上操作。这就是顺序读取为什么特别快的原因，因为几乎都在转圈圈，seek的次数很少。</p>
 <p>不过实际没这么理想，主要是因为没有这么大的连续空间，所有会有很多磁盘碎片产生。</p>
 <ul>
 <li>随机读写</li>
