@@ -177,7 +177,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-05-27 11:33:20 / Modified: 11:35:12" itemprop="dateCreated datePublished" datetime="2021-05-27T11:33:20+08:00">2021-05-27</time>
+              <time title="Created: 2021-05-27 11:33:20 / Modified: 15:10:25" itemprop="dateCreated datePublished" datetime="2021-05-27T11:33:20+08:00">2021-05-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -200,7 +200,86 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h1 id="Magnetic-Disk"><a href="#Magnetic-Disk" class="headerlink" title="Magnetic Disk"></a>Magnetic Disk</h1><h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p><img src="img/disk-md-struct.png"><br>上图为磁盘结构，可以看到由多个platter绕着中间的spindle以及用于读写的read-write head构成。</p>
+<p>每个platter由很多同心圆环track组成，<strong>从外到内</strong>由0开始编号，第0磁道、第1磁道…每个磁道由多个sector组成，可以看到外圈的track含有的sector会比内圈的多。</p>
+<p>磁盘的最小单元即为sector，由512个字节组成。</p>
+<h2 id="读写方式"><a href="#读写方式" class="headerlink" title="读写方式"></a>读写方式</h2><ul>
+<li>读</li>
+</ul>
+<p>首先<strong>磁盘的物理地址</strong>由三个部分组成，柱面号、磁头号、扇区号。</p>
+<p>所以当一个读请求进来的时候，需要先定位到相应的驻面，因为磁盘有很多磁头，然后需要选择一个正确的磁头，接着在这个track中找到想要读区的sector。</p>
+<p>总结一下：</p>
+<ol>
+<li>先定位到驻面（即定位到所有同半径的tracks）</li>
+<li>在这些tracks中选择一个track（即选择哪个磁头进行读取）</li>
+<li>接着在这个track中选择一个sector进行读取。</li>
+</ol>
+<p>上述步骤，第一步则为寻道时间（seek time），第三步则为旋转延迟时间（rotational latency time）</p>
+<ul>
+<li>写</li>
+</ul>
+<p>写文件的顺序：<strong>柱面、磁头、扇区</strong>。</p>
+<p>具体来讲：</p>
+<ol>
+<li>从最外的驻面开始写（比如1号驻面开始，写满后，然后再2号、3号、…，直到所有驻面写满，磁盘就写满了）</li>
+<li>从这个驻面的从上到下的磁道开始写（选择一个驻面后，先写1号盘面的track，再写2号盘面，…，直到这个驻面的所有track被写满）</li>
+<li>对于每个track，在sector上连续写数据</li>
+</ol>
+<p>知道怎么写数据后，再思考下，假如一个文件占据很多个驻面，怎么顺序读完整个文件？（假设存储时绝对顺序，一共有n个盘面）</p>
+<p>大致步骤：找到对应的最外层驻面（seek 1次），磁头转n次把同一个驻面的所有盘面读完（这里不需要再次seek了），最近seek到下一个驻面，同上操作。这就是顺序读取为什么特别快的原因，因为几乎都在转圈圈，seek的次数很少。</p>
+<p>不过实际没这么理想，主要是因为没有这么大的连续空间，所有会有很多磁盘碎片产生。</p>
+<ul>
+<li>随机读写</li>
+</ul>
+<p>明白磁盘的读写方式之后，可以看到磁盘的随机读写会特别慢。比如一个range query进来，里面的元素都随机分布在磁盘的各个位置，此时需要很多次seek，所以导致磁盘的随机读写效率特别低。</p>
+<h1 id="SSD"><a href="#SSD" class="headerlink" title="SSD"></a>SSD</h1><p>使用磁盘时，大部分时间消耗都在机械部件的动作上（seek），真正传输数据其实是特别快的。SSD用集成电路代替旋转磁盘，所以SSD速度会比磁盘快很多。</p>
+<h2 id="结构-1"><a href="#结构-1" class="headerlink" title="结构"></a>结构</h2><p><img src="img/disk-ssd-struct.png"></p>
+<p>如上图所示，这个并不是完整的SSD，只拎出比较重要的Block、Page来描述SSD。</p>
+<p>一个SSD有很多闪存（Flash）组成，每个闪存有很多Block，每个Block有很多Page，每个Page大小为4K或者8K。</p>
+<p><img src="img/disk-ssd-tabke.png"></p>
+<p>为了快速定位一个page在哪里，SSD通过上述的LBA MapTable来做一个逻辑地址和物理地址（物理Page）的映射，这也是SSD的seek时间快的原因。</p>
+<h2 id="读写方式-1"><a href="#读写方式-1" class="headerlink" title="读写方式"></a>读写方式</h2><ul>
+<li>读</li>
+</ul>
+<p>SSD的读，在上面已经讲的差不多了。注意的是，SSD的读是以一个Page为单位的。</p>
+<p>步骤：</p>
+<ol>
+<li>通过LBA MapTable找到Page</li>
+<li>直接读这个Page的内容</li>
+</ol>
+<ul>
+<li>写</li>
+</ul>
+<p>SSD的写挺有意思的，涉及到垃圾回收机制。</p>
+<p>首先Flash有以下两个性质：</p>
+<ol>
+<li>写必须以Page为单位，而且不能覆盖有内容的Page（一个Page可能逻辑上被删除，但是里面的内容还未被清空），只能写在一个空白的Page上</li>
+<li>擦除数据的时候，必须以一个Block为单位</li>
+</ol>
+<p>接下来介绍2种写，第一种是直接写（即写入新的数据），第二种是修改原有的数据。</p>
+<p><img src="/img/disk-ssd-write.png"></p>
+<p>上图为直接写，首先page分为3种，第一种是有效（即有数据并且这个数据被某个文件引用着），第二种是空闲（即空白page），第三种是无效（即有数据，但是没有被文件引用，比如逻辑上调用delete file这个操作）。直接写需要找到一个空闲page进行写。</p>
+<p><img src="/img/disk-ssd-update.png"></p>
+<p>上图为覆盖写（update）。由于Flash的特性不能覆盖原有的Page，所以需要找到一个空闲的page把修改的内容写入，然后把原有的page设置有无效（修改LBA MapTable的内容）</p>
+<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><p>首先介绍一个概念，over-provisioning，指的是SSD的实际存储空间比可写入的空间要大。比如，一块可用容量为500G的SSD，实际空间可能有512G，平常咱们买SSD的时候，其实就已经可以观察到标注的容量都不是2的指数倍，其实就因为over-provisioning的存在。那为什么需要将512G中的12G单独拿出来呢？这个12G在垃圾回收时起着copy的作用，这也是“擦除数据的时候，必须以一个Block为单位”的影响。</p>
+<p>从上个章节的SSD写的步骤，可以看到无效的Page会随着写操作的增加而增加，所以需要使用垃圾回收机制定期把一些无效Page清空。</p>
+<p><img src="/img/disk-ssd-gc.png"></p>
+<p>上图为垃圾回收（GC）的演示图，大致步骤是：</p>
+<ol>
+<li>在over-provisioning中找到一个空的block</li>
+<li>将block0的ABCDEFH和block1的A复制到这个block</li>
+<li>擦除block0</li>
+<li>把block1的BCDEFH复制到block0，此时block0就有两个空闲page了</li>
+<li>擦除block1</li>
+</ol>
+<h2 id="SSD存在的问题"><a href="#SSD存在的问题" class="headerlink" title="SSD存在的问题"></a>SSD存在的问题</h2><p>首先SSD的GC操作会使得block被疯狂擦写，然而block是有寿命的，不能超过一定的擦写次数。</p>
+<p>其次，在上面的GC操作中，我们可以看到，其实block0和block1的正确的数据都被重写了一遍，导致了<strong>写放大</strong>问题。顺便介绍一下写放大这个概念，在数据库中会经常听到的一个概念。</p>
+<ul>
+<li><strong>写放大</strong>，即本身数据大小为n，理论上在硬盘中只需要被写入n大小的数据，但是由于一些附加操作，导致这些相同的数据被写入了多次，导致实际写入了k*n这么多数据。有很多方式会导致写放大，比如SSD的GC，或者平常数据库为了一致性而需要写日志（日志中包括数据）。关于减少写放大，也是一个research的研究方向。</li>
+</ul>
+<p>然后，ssd的写放大除了GC的时候，当update的时候也会出现。因为比如只需要update一个page中很小一块的数据，但是需要把整个page都copy并且重写一遍，所以这个也导致了写放大问题。之后我可能会写文章介绍LSM-tree，介绍从软件层面解决这个问题的方法。</p>
+<h1 id="NVMe"><a href="#NVMe" class="headerlink" title="NVMe"></a>NVMe</h1><p>之后再单独写写NVMe，现在有很多research都在研究NVMe，之后不懒的时候打算整理下NVMe的研究进展。</p>
+
       
     </div>
 
