@@ -30,7 +30,7 @@
 <meta property="og:description" content="c++中的左值、右值、move语义">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-25T03:11:11.000Z">
-<meta property="article:modified_time" content="2021-07-02T11:27:56.034Z">
+<meta property="article:modified_time" content="2021-07-02T11:35:56.702Z">
 <meta property="article:author" content="Xin CHEN">
 <meta property="article:tag" content="c++">
 <meta name="twitter:card" content="summary">
@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-07-02 19:27:56" itemprop="dateModified" datetime="2021-07-02T19:27:56+08:00">2021-07-02</time>
+                <time title="Modified: 2021-07-02 19:35:56" itemprop="dateModified" datetime="2021-07-02T19:35:56+08:00">2021-07-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,7 +219,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h1><p>C++中所有的值都分为左值和右值。左值是指那些表达式结束仍存在的对象。右值是指那些表达式结束就消失的临时变量。或者那些可以取地址的值为左值，不可取地址的值是右值。下面举几个例子。</p>
+        <h1 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h1><p>C++中所有的值都分为左值和右值。左值是指那些表达式结束仍存在的对象。右值是指那些表达式结束就消失的临时变量（临时变量好像是存在寄存器中）。或者那些可以取地址的值为左值，不可取地址的值是右值。下面举几个例子。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">  <span class="built_in">node</span>() = <span class="keyword">default</span>;</span><br><span class="line">  <span class="built_in">noed</span>(<span class="keyword">int</span> x) : <span class="built_in">x</span>(x) &#123;&#125;</span><br><span class="line">  <span class="keyword">int</span> x;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">node a = <span class="built_in">node</span>(<span class="number">1</span>); <span class="comment">// node a为左值，node(1)为右值</span></span><br><span class="line"><span class="keyword">int</span> x = <span class="number">1</span>; <span class="comment">// x为左值，1为右值</span></span><br><span class="line"><span class="keyword">int</span> y = <span class="number">2</span> + x; <span class="comment">// y为左值，表达式2+x为右值</span></span><br><span class="line"><span class="keyword">int</span> z = <span class="built_in">get</span>(); <span class="comment">// z为左值，get()为右值</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="左值引用和右值引用"><a href="#左值引用和右值引用" class="headerlink" title="左值引用和右值引用"></a>左值引用和右值引用</h1><p>C++中引用分为左值引用和右值引用。左值引用就是引用对象为左值，右值引用就是引用对象为右值，左值引用比较普遍。简单理解右值引用，其实就是将某个右值取了个名字。<strong>常量左值引用</strong>可以算是一个“万能”的引用类型，它可以绑定非常量左值、常量左值、右值，而且在绑定右值的时候，常量左值引用还可以像右值引用一样将右值的生命期延长，缺点是，只能读不能改。下面举几个例子。</p>
