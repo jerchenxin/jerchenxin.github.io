@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog | CHEN Xin</title>
+  <meta name="description" content="Technical notes and blog posts by Xin Chen." />
+  <link rel="stylesheet" href="jemdoc.css" type="text/css" />
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div>
+        <h1>Blog</h1>
+        <p class="subtitle">Technical notes on LLM systems, research, and engineering</p>
+      </div>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a class="active" href="blog.html">Blog</a>
+      </nav>
+    </header>
+
+    <main class="content-grid blog-grid">
+      <section class="card full">
+        <div id="posts-list">
+          <p class="post-loading">Loading posts...</p>
+        </div>
+        <noscript>
+          <p class="post-error">Please enable JavaScript to load posts.</p>
+        </noscript>
+      </section>
+
+      <!-- <section class="card full">
+        <h2>Topics</h2>
+        <div class="tag-list" aria-label="Blog topics">
+          <span class="tag">LLM Algorithms</span>
+          <span class="tag">Infrastructure</span>
+          <span class="tag">Agents</span>
+          <span class="tag">System Design</span>
+          <span class="tag">Research Notes</span>
+        </div>
+      </section> -->
+    </main>
+
+    <footer class="site-footer">
+      <p><a href="index.html">Back to homepage</a></p>
+    </footer>
+  </div>
+  <script src="generated/posts.js"></script>
+  <script>
+    (async function renderPosts() {
+      var container = document.getElementById("posts-list");
+      if (!container) return;
+
+      function escapeHtml(value) {
+        return value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function renderTags(tags) {
+        if (!Array.isArray(tags) || tags.length === 0) return "";
+        return '<div class="post-tags-inline">' +
+          tags.map(function (tag) {
+            return '<span class="mini-tag">' + escapeHtml(tag) + '</span>';
+          }).join("") +
+          "</div>";
+      }
+
+      try {
+        var posts = Array.isArray(window.__BLOG_POSTS__) ? window.__BLOG_POSTS__ : null;
+        if (!posts) {
+          var response = await fetch("generated/posts.json", { cache: "no-store" });
+          if (!response.ok) throw new Error("Failed to load posts.json");
+          posts = await response.json();
+        }
+
+        if (!Array.isArray(posts) || posts.length === 0) {
+          container.innerHTML = '<p class="post-loading">No posts yet.</p>';
+          return;
+        }
+
+        container.innerHTML = posts.map(function (post) {
+          return (
+            '<article class="post-item">' +
+              '<p class="post-date">' + escapeHtml(post.display_date || post.date || "") + "</p>" +
+              '<h3><a href="' + escapeHtml(post.url || "#") + '">' + escapeHtml(post.title || "Untitled") + "</a></h3>" +
+              '<p>' + escapeHtml(post.summary || "") + "</p>" +
+              renderTags(post.tags) +
+            "</article>"
+          );
+        }).join("");
+      } catch (error) {
+        container.innerHTML = '<p class="post-error">Failed to load posts. Run <code>python3 scripts/build_blog.py</code>, then refresh. If you are previewing locally, use a local HTTP server.</p>';
+      }
+    })();
+  </script>
+</body>
+</html>

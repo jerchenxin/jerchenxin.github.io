@@ -1,0 +1,14 @@
+window.__BLOG_POSTS__ = [
+  {
+    "slug": "2026-03-26-welcome",
+    "title": "Welcome My Blog",
+    "date": "2026-03-26",
+    "order": 1,
+    "display_date": "March 26, 2026",
+    "summary": "What I plan to write here.",
+    "tags": [
+      "Plan"
+    ],
+    "url": "generated/2026-03-26-welcome.html"
+  }
+];
