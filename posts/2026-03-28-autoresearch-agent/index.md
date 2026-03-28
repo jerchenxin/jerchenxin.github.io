@@ -44,6 +44,23 @@ tags: AutoResearch Agent
 6. 实验过程相关数据和文档的维护（实验数据、方案的持久化，AGENTS.md文档的维护方式，一些成功、失败经验的维护方式），为了long term运行做准备
 7. 注意事项（这里发挥空间比较大，因为action space特别大以及AGENTS.md不可能完美，需要根据实际情况不断做出提醒和限制）
 
+## 实际实例
+AGENTS.md的写法可以参考上述描述，也可以参考[karpathy/autoresearch](https://github.com/karpathy/autoresearch/blob/master/program.md)
+
+
+<br>
+
+codex目前还不能只通过prompt实现24小时运行，可能是gpt模型本身的一些原因导致。下面是手动变成long term运行的脚本。适合在一台服务器上进行。
+
+```shell
+# /bin/bash
+
+while true; do
+    codex exec --dangerously-bypass-approvals-and-sandbox "认真阅读并根据AGENTS.md的指示进行思考以及实验, 多思考、多归因、多记录, NERVER STOP" 2>&1 | tee -a agent.log
+    sleep 1
+done
+```
+
 ## 一些有趣的坑
 一个针对可验证reward的long term的agent简直和RL一摸一样，有一样的老毛病：**reward hacking**!!!
 
@@ -67,4 +84,4 @@ tags: AutoResearch Agent
 4. 可能可以写一个通用的anti reward hacking的skill来解决这个问题（通用性还是难定义的）
 
 ## 总结
-最近明确感受到瓶颈在自己以及自己的钱包。但是想法还是很重要的。此外，很多可验证项目都可以试试autoresearch的思路。Agent Reward Hacking甚至适合当一个research topic来解决。
+最近明确感受到瓶颈在自己以及自己的钱包。但是想法还是很重要的。此外，很多可验证项目都可以试试autoresearch的思路。Agent Reward Hacking甚至适合当一个research topic来研究。

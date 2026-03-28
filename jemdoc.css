@@ -100,6 +100,7 @@ h3 {
   border-radius: var(--radius);
   padding: 1.2rem 1.3rem;
   box-shadow: var(--shadow);
+  min-width: 0;
   animation: rise-in 0.45s ease;
 }
 
@@ -189,7 +190,7 @@ a:hover {
 }
 
 .blog-grid {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .post-item + .post-item {
