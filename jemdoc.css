@@ -268,20 +268,13 @@ a:hover {
   font-size: 0.9rem;
 }
 
-.stats-note {
-  margin-top: 0;
-  color: var(--muted);
-  font-size: 0.92rem;
+.visitor-map {
+  margin: 1rem 0 0;
+  text-align: center;
 }
 
-.stats-widget {
-  margin-top: 0.7rem;
-  min-height: 320px;
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  padding: 0.7rem;
-  background: #fafcff;
-  overflow-x: auto;
+.visitor-map script {
+  display: inline-block;
 }
 
 .post-content h2,
