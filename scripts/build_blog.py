@@ -66,7 +66,13 @@ def render_inline(text: str, slug: str) -> str:
         placeholders[key] = f"<code>{html.escape(match.group(1))}</code>"
         return key
 
+    def replace_raw_break(match: re.Match[str]) -> str:
+        key = f"@@RAWBR{len(placeholders)}@@"
+        placeholders[key] = "<br />"
+        return key
+
     text = re.sub(r"`([^`]+)`", replace_code, text)
+    text = re.sub(r"<br\s*/?>", replace_raw_break, text, flags=re.IGNORECASE)
     text = html.escape(text)
 
     def replace_image(match: re.Match[str]) -> str:

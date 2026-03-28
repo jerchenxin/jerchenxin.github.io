@@ -1,5 +1,17 @@
 [
   {
+    "slug": "2026-03-28-autoresearch-agent",
+    "title": "AutoResearch Agent",
+    "date": "2026-03-28",
+    "order": 1,
+    "display_date": "March 28, 2026",
+    "summary": "一些使用autoresearch的思考（持续更新）",
+    "tags": [
+      "AutoResearch Agent"
+    ],
+    "url": "generated/2026-03-28-autoresearch-agent.html"
+  },
+  {
     "slug": "2026-03-26-welcome",
     "title": "Welcome My Blog",
     "date": "2026-03-26",
