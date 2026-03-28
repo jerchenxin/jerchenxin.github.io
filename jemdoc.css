@@ -11,6 +11,10 @@
   --radius: 14px;
 }
 
+html {
+  scrollbar-gutter: stable both-edges;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -27,7 +31,7 @@ body {
 }
 
 .page {
-  width: min(980px, 92vw);
+  width: min(980px, calc(100% - 2rem));
   margin: 2.8rem auto 3.5rem;
 }
 
@@ -101,6 +105,7 @@ h3 {
   padding: 1.2rem 1.3rem;
   box-shadow: var(--shadow);
   min-width: 0;
+  overflow-wrap: anywhere;
   animation: rise-in 0.45s ease;
 }
 
@@ -306,7 +311,7 @@ a:hover {
 
 @media (max-width: 820px) {
   .page {
-    width: min(95vw, 740px);
+    width: min(740px, calc(100% - 1rem));
     margin-top: 1.4rem;
   }
 
