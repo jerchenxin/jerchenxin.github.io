@@ -1,7 +1,7 @@
 window.__BLOG_POSTS__ = [
   {
     "slug": "2026-03-28-autoresearch-agent",
-    "title": "AutoResearch Agent",
+    "title": "AutoResearch Agent（一）：初次相遇&Reward Hacking",
     "date": "2026-03-28",
     "order": 1,
     "display_date": "March 28, 2026",

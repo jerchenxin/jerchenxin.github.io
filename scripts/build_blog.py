@@ -14,6 +14,21 @@ GENERATED_DIR = ROOT / "generated"
 
 ABSOLUTE_URL_RE = re.compile(r"^(?:https?://|/|#|mailto:)", re.IGNORECASE)
 
+GISCUS_CONFIG = {
+    "repo": "jerchenxin/jerchenxin.github.io",
+    "repo_id": "MDEwOlJlcG9zaXRvcnkzNzAyODUxNjg=",
+    "category": "General",
+    "category_id": "DIC_kwDOFhIacM4C5jVw",
+    "mapping": "pathname",
+    "strict": "0",
+    "reactions_enabled": "1",
+    "emit_metadata": "0",
+    "input_position": "bottom",
+    "theme": "preferred_color_scheme",
+    "lang": "zh-CN",
+    "loading": "lazy",
+}
+
 
 @dataclass
 class Post:
@@ -250,6 +265,8 @@ def render_post_html(post: Post) -> str:
         )
         tags_html = f'<div class="post-tags-inline" aria-label="Post tags">{tags_line}</div>'
 
+    comments_html = render_comments_html()
+
     return f"""<!DOCTYPE html>
 <html lang=\"en\">
 <head>
@@ -278,6 +295,7 @@ def render_post_html(post: Post) -> str:
         {tags_html}
         {post.body_html}
       </article>
+      {comments_html}
     </main>
 
     <footer class=\"site-footer\">
@@ -287,6 +305,59 @@ def render_post_html(post: Post) -> str:
 </body>
 </html>
 """
+
+
+def render_comments_html() -> str:
+    if not GISCUS_CONFIG["repo_id"] or not GISCUS_CONFIG["category_id"]:
+        return """<section class="card full comments-section" aria-labelledby="comments-heading">
+        <h2 id="comments-heading">Comments</h2>
+        <p class="comments-note">Comments will appear here after the remaining giscus category configuration is filled in.</p>
+        <ol class="comments-setup-list">
+          <li>Open the giscus configuration page for <code>jerchenxin/jerchenxin.github.io</code>.</li>
+          <li>Select the <code>General</code> discussion category.</li>
+          <li>Paste the generated <code>category_id</code> into <code>scripts/build_blog.py</code>, then rebuild the blog.</li>
+        </ol>
+      </section>"""
+
+    repo = html.escape(GISCUS_CONFIG["repo"], quote=True)
+    repo_id = html.escape(GISCUS_CONFIG["repo_id"], quote=True)
+    category = html.escape(GISCUS_CONFIG["category"], quote=True)
+    category_id = html.escape(GISCUS_CONFIG["category_id"], quote=True)
+    mapping = html.escape(GISCUS_CONFIG["mapping"], quote=True)
+    strict = html.escape(GISCUS_CONFIG["strict"], quote=True)
+    reactions_enabled = html.escape(GISCUS_CONFIG["reactions_enabled"], quote=True)
+    emit_metadata = html.escape(GISCUS_CONFIG["emit_metadata"], quote=True)
+    input_position = html.escape(GISCUS_CONFIG["input_position"], quote=True)
+    theme = html.escape(GISCUS_CONFIG["theme"], quote=True)
+    lang = html.escape(GISCUS_CONFIG["lang"], quote=True)
+    loading = html.escape(GISCUS_CONFIG["loading"], quote=True)
+
+    return f"""<section class="card full comments-section" aria-labelledby="comments-heading">
+        <h2 id="comments-heading">Comments</h2>
+        <p class="comments-note">Comment with your GitHub account. Replies stay threaded in GitHub Discussions.</p>
+        <div class="comments-widget">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="{repo}"
+            data-repo-id="{repo_id}"
+            data-category="{category}"
+            data-category-id="{category_id}"
+            data-mapping="{mapping}"
+            data-strict="{strict}"
+            data-reactions-enabled="{reactions_enabled}"
+            data-emit-metadata="{emit_metadata}"
+            data-input-position="{input_position}"
+            data-theme="{theme}"
+            data-lang="{lang}"
+            data-loading="{loading}"
+            crossorigin="anonymous"
+            async>
+          </script>
+        </div>
+        <noscript>
+          <p class="comments-note">Please enable JavaScript to load comments.</p>
+        </noscript>
+      </section>"""
 
 
 def build() -> None:

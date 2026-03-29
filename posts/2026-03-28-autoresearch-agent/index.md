@@ -1,5 +1,5 @@
 ---
-title: AutoResearch Agent
+title: AutoResearch Agent（一）：初次相遇&Reward Hacking
 date: 2026-03-28
 order: 1
 summary: 一些使用autoresearch的思考（持续更新）

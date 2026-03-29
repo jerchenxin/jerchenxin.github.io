@@ -40,10 +40,16 @@ body {
 
 .site-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1.4rem;
+}
+
+.site-header > :first-child {
+  flex: 1 1 18rem;
+  min-width: 0;
 }
 
 h1,
@@ -58,6 +64,7 @@ h4 {
 h1 {
   font-size: clamp(1.7rem, 4vw, 2.3rem);
   color: #18324f;
+  overflow-wrap: break-word;
 }
 
 h2 {
@@ -78,9 +85,11 @@ h3 {
 
 .top-nav {
   display: flex;
+  flex: 0 0 auto;
   gap: 0.65rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .top-nav a {
@@ -308,6 +317,28 @@ a:hover {
 .post-content pre code {
   background: transparent;
   padding: 0;
+}
+
+.comments-section {
+  margin-top: 0.1rem;
+}
+
+.comments-section h2 {
+  margin-bottom: 0.45rem;
+}
+
+.comments-note {
+  margin: 0;
+  color: var(--muted);
+}
+
+.comments-setup-list {
+  margin-top: 0.75rem;
+  color: var(--muted);
+}
+
+.comments-widget {
+  margin-top: 0.9rem;
 }
 
 @keyframes rise-in {
