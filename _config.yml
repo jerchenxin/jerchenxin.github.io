@@ -1,0 +1,3 @@
+# Keep archived writing out of the published homepage.
+exclude:
+  - posts

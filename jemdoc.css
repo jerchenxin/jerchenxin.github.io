@@ -5,7 +5,6 @@
   --text: #1d2a38;
   --muted: #5d6c7b;
   --primary: #1f5b99;
-  --primary-soft: #dbe8f6;
   --border: #d2dce8;
   --shadow: 0 12px 30px rgba(28, 46, 69, 0.08);
   --radius: 14px;
@@ -206,77 +205,6 @@ a:hover {
   margin-bottom: 0.3rem;
 }
 
-.blog-grid {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.post-item + .post-item {
-  border-top: 1px dashed var(--border);
-  margin-top: 1rem;
-  padding-top: 1rem;
-}
-
-.post-date {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.post-loading,
-.post-error {
-  margin: 0.4rem 0;
-  color: var(--muted);
-}
-
-.post-error {
-  color: #9d2d2d;
-}
-
-.post-summary {
-  margin-top: 0;
-  font-size: 1.02rem;
-}
-
-.post-tags-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin: 0.5rem 0 1rem;
-}
-
-.mini-tag {
-  display: inline-block;
-  padding: 0.16rem 0.58rem;
-  border-radius: 999px;
-  background: #edf4fd;
-  color: #225486;
-  border: 1px solid #d2e2f5;
-  font-size: 0.8rem;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-}
-
-.tag {
-  display: inline-block;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  background: var(--primary-soft);
-  color: #1f4f80;
-  font-size: 0.86rem;
-  border: 1px solid #c9dbf0;
-}
-
-.site-footer {
-  margin-top: 1.4rem;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
 .visitor-map {
   margin: 1rem 0 0;
   text-align: center;
@@ -284,61 +212,6 @@ a:hover {
 
 .visitor-map script {
   display: inline-block;
-}
-
-.post-content h2,
-.post-content h3 {
-  margin-top: 1.2rem;
-}
-
-.post-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-}
-
-.post-content pre {
-  overflow-x: auto;
-  background: #f0f4fa;
-  border: 1px solid #d6e0ee;
-  border-radius: 10px;
-  padding: 0.65rem 0.8rem;
-}
-
-.post-content code {
-  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.9em;
-  background: #edf2f8;
-  border-radius: 4px;
-  padding: 0.08rem 0.25rem;
-}
-
-.post-content pre code {
-  background: transparent;
-  padding: 0;
-}
-
-.comments-section {
-  margin-top: 0.1rem;
-}
-
-.comments-section h2 {
-  margin-bottom: 0.45rem;
-}
-
-.comments-note {
-  margin: 0;
-  color: var(--muted);
-}
-
-.comments-setup-list {
-  margin-top: 0.75rem;
-  color: var(--muted);
-}
-
-.comments-widget {
-  margin-top: 0.9rem;
 }
 
 @keyframes rise-in {
