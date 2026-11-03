@@ -1,0 +1,264 @@
+:root {
+  --bg: #f4f7fb;
+  --bg-accent: #e7edf6;
+  --surface: #ffffff;
+  --text: #1d2a38;
+  --muted: #5d6c7b;
+  --primary: #1f5b99;
+  --border: #d2dce8;
+  --shadow: 0 12px 30px rgba(28, 46, 69, 0.08);
+  --radius: 14px;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+  overflow-y: scroll;
+  color: var(--text);
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif;
+  background:
+    radial-gradient(1200px 500px at 15% -10%, var(--bg-accent), transparent 65%),
+    radial-gradient(900px 400px at 100% 0%, #eef4fc, transparent 60%),
+    var(--bg);
+  line-height: 1.65;
+}
+
+.page {
+  width: min(980px, 100%);
+  margin: 2.8rem auto 3.5rem;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.site-header > :first-child {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+h1 {
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  color: #18324f;
+  overflow-wrap: break-word;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: #224f80;
+}
+
+h3 {
+  font-size: 1.02rem;
+}
+
+.subtitle {
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.top-nav {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.65rem;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.top-nav a {
+  text-decoration: none;
+  color: var(--primary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.92rem;
+  background: rgba(255, 255, 255, 0.75);
+  transition: all 0.2s ease;
+}
+
+.top-nav a:hover,
+.top-nav a.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.3rem;
+  box-shadow: var(--shadow);
+  min-width: 0;
+  overflow-wrap: anywhere;
+  animation: rise-in 0.45s ease;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 1.2rem;
+  align-items: center;
+  margin-bottom: 1.1rem;
+}
+
+.profile-photo {
+  width: 170px;
+  height: 170px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.hero-text p {
+  margin: 0;
+}
+
+.meta-list {
+  margin: 0.7rem 0 0;
+  padding-left: 1rem;
+}
+
+.meta-list li {
+  margin: 0.2rem 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.content-grid .full {
+  grid-column: 1 / -1;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+ul,
+ol {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+}
+
+li {
+  margin: 0.35rem 0;
+}
+
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: #0f3f74;
+}
+
+.timeline-item {
+  margin: 0.5rem 0;
+}
+
+.timeline-item span {
+  display: inline-block;
+  min-width: 96px;
+  font-weight: 600;
+  color: #2f5f90;
+}
+
+.pub-list {
+  margin: 0;
+}
+
+.pub-list li {
+  margin: 0.7rem 0 1rem;
+}
+
+.pub-title {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.visitor-map {
+  margin: 1rem 0 0;
+  text-align: center;
+}
+
+.visitor-map script {
+  display: inline-block;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 820px) {
+  body {
+    padding-left: max(0.5rem, env(safe-area-inset-left));
+    padding-right: max(0.5rem, env(safe-area-inset-right));
+  }
+
+  .page {
+    width: min(740px, 100%);
+    margin-top: 1.4rem;
+  }
+
+  .site-header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .top-nav {
+    justify-content: flex-start;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-item {
+    white-space: normal;
+  }
+}
